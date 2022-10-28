@@ -18,86 +18,10 @@
               </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Add User </h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    
-                    <div class="modal-body">
-                      <form method="POST" action="{{route('admin.users.store')}}">
-                        @csrf
-                        <div class="row">
-                          <div class="col-12 col-md-6">
-                            <div class="form-group">
-                              <input class="form-control" placeholder="Name" name="name" id="name" value="">
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="form-group">
-                              <input class="form-control" placeholder="Last Name" name="lastname" id="lastname">
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="form-group">
-                              <input class="form-control" placeholder="Phone Number" name="telephone">
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="form-group">
-                              <input class="form-control" type="email" placeholder="Email" name="email">
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="form-group ">
-                              <select name="role" class="form-control">
-                                @foreach ($roles as $role)
-                                  <option disabled selected hidden>Rôle</option>
-                                  <option value="{{$role->name}}"> {{$role->name}} </option>
-                                  {{-- <option value="Féminin">Féminin</option> --}}
-                                @endforeach
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="form-group ">
-                                <select name="sexe" class="form-control">
-                                    <option disabled selected hidden>Sexe ...</option>
-                                    <option value="Masculin">Masculin</option>
-                                    <option value="Féminin">Féminin</option>
-                                </select>
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="form-group">
-                              <input class="form-control" type="date"  placeholder="Date de Naissance" name="date_naissance">
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="form-group">
-                              <input type="password" class="form-control"  placeholder="Password" name="password">
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="form-group">
-                              <input type="password" class="form-control"  placeholder="confirmed password" name="confirmedpassword">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <input type="submit" class="btn btn-primary" value="save"></button>
-                        </div>
-                      </form>
-                    </div>
-                    
-                  </div>
-                </div>
-            </div>
+            <form method="POST" action="{{route('admin.users.store')}}">
+              @csrf
+              @include('users_book.form', ['user' => null])
+            </form>
           </div>
         </div>
       </div>
@@ -127,10 +51,11 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->roles[0]->name }}</td>
                 <td class="text-center">
-                  <button class="btn btn-icon btn-primary btn-sm user_dialog" type="button" data-toggle="modal" data-target="#exampleModal" data-id="{{ $user->id }}">
+                  <button class="btn btn-icon btn-primary btn-sm user_dialog" type="button" data-toggle="modal" data-target="#exampleModal{{ $user->id }}" data-id="{{ $user->id }}">
                       <span class="btn-inner--icon"><i class="fas fa-user-edit"></i></span>
                       <span class="btn-inner--text">Edit</span>
                   </button>
+                  @include('users_book.form', ['user' => $user])
                   <button class="btn btn-icon btn-danger btn-sm" type="button">
                       <span class="btn-inner--icon"><i class="fas fa-trash"></i></span>
                       <span class="btn-inner--text">Delete</span>
