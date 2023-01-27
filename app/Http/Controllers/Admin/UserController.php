@@ -24,8 +24,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         // dd($request);
+        // dd($hash);
         $user = User::create($request->all())->assignRole($request->role);
-        return redirect()->route('users_book.index')->session()->flash('message', 'User Created');
+        $user->password = Hash::make($request->password);
+        $user->save();
+        
+        return redirect()->route('users_book.index')->with('message', 'User Created');
+        // ('message', 'Permission created.');
     }
 
     public function show(User $user)
@@ -34,6 +39,12 @@ class UserController extends Controller
         $permissions = Permission::all();
 
         return view('admin.users.role', compact('user', 'roles', 'permissions'));
+    }
+
+    public function update($id)
+    {
+        $user = User::findOrFail($id);
+        dd($user);
     }
 
     public function assignRole(Request $request, User $user)

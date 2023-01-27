@@ -37,6 +37,9 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
 
     //Store user
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
+
+    //Update user
+    Route::patch('/users/{id}', [UserController::class, 'update'])->name('users.update');
 });
 
 require __DIR__ . '/auth.php';
